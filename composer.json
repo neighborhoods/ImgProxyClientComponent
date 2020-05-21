@@ -34,7 +34,6 @@
   "require": {
     "php": "^7.3",
     "neighborhoods/buphalo": "^1.1",
-    "neighborhoods/container-builder": "^1.0",
     "neighborhoods/bakery": "^1.0"
   }
 }
