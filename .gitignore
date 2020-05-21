@@ -1,8 +1,1 @@
-!.gitignore
-.idea
-fab/*
-test-fab/*
-vendor/*
-phpcs.xml.dist
-phpunit.xml.dist
-.phpunit.result.cache
+/vendor/

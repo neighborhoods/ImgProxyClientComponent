@@ -1,0 +1,40 @@
+{
+  "name": "neighborhoods/imgproxy-client-component",
+  "type": "library",
+  "description": "A component used to interact with imgproxy",
+  "authors": [
+    {
+      "name": "Nathaniel Alvarado",
+      "email": "nathaniel.alvarado@neighborhoods.com"
+    },
+    {
+      "name": "Harsh Patel",
+      "email": "harsh.patel@neighborhoods.com"
+    }
+  ],
+  "scripts": {
+    "post-update-cmd": [
+      "@composer dump-autoload -a"
+    ],
+    "prebake": [
+      "bin/buphalo",
+      "@composer dump-autoload -a"
+    ],
+    "post-install-cmd": [
+      "@composer prebake",
+      "vendor/bin/bakery"
+    ]
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://satis.neighborhoods.com"
+    }
+  ],
+  "require": {
+    "php": "^7.3",
+    "neighborhoods/buphalo": "^1.1",
+    "neighborhoods/container-builder": "^1.0",
+    "neighborhoods/bakery": "^1.0"
+  }
+}
