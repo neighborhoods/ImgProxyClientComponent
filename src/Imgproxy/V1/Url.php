@@ -40,13 +40,6 @@ class Url implements UrlInterface
      */
     private $builder;
 
-    public function construct(UrlBuilder $builder, string $imageURL, int $width, int $height): UrlInterface
-    {
-        $this->builder = $builder;
-        $this->imageUrl = $imageURL;
-        $this->width = $width;
-        $this->height = $height;
-    }
 
     public function unsignedPath(): string
     {
@@ -82,22 +75,93 @@ class Url implements UrlInterface
         return $this->builder->getBaseUrl() . $this->signedPath();
     }
 
+    public function getImageUrl(): string
+    {
+        if ($this->imageUrl === null) {
+            throw new \LogicException("Url image url has not been set");
+        }
+
+        return $this->imageUrl;
+    }
+
+    public function setImageUrl(string $imageUrl): UrlInterface
+    {
+        if ($this->imageUrl !== null) {
+            throw new \LogicException("Url image url is already set");
+        }
+
+        $this->imageUrl = $imageUrl;
+
+        return $this;
+    }
+
+    public function getBuilder(): UrlBuilder
+    {
+        if ($this->builder === null) {
+            throw new \LogicException("Url builder has not been set");
+        }
+
+        return $this->builder;
+    }
+
+    public function setBuilder(UrlBuilder $builder): UrlInterface
+    {
+        if ($this->builder !== null) {
+            throw new \LogicException("Url builder is already set");
+        }
+
+        $this->builder = $builder;
+
+        return $this;
+    }
+
+    public function getWidth(): int
+    {
+        if ($this->width === null) {
+            throw new \LogicException("Url width has not been set");
+        }
+
+        return $this->width;
+    }
+
     public function setWidth(int $width): UrlInterface
     {
         if ($this->width !== null) {
-            throw new \LogicException('Url width is already set.');
+            throw new \LogicException("Url width is already set.");
         }
+
         $this->width = $width;
+
         return $this;
+    }
+
+    public function getHeight(): int
+    {
+        if ($this->height === null) {
+            throw new \LogicException("Url height has not been set");
+        }
+
+        return $this->height;
     }
 
     public function setHeight(int $height): UrlInterface
     {
         if ($this->height !== null) {
-            throw new \LogicException('Url height is already set');
+            throw new \LogicException("Url height is already set");
         }
+
         $this->height = $height;
+
         return $this;
+    }
+
+    public function getFit(): string
+    {
+        if ($this->fit === null) {
+            throw new \LogicException("Url fit has not been set");
+        }
+
+        return $this->fit;
     }
 
     public function setFit(string $fit): UrlInterface
@@ -105,32 +169,63 @@ class Url implements UrlInterface
         if ($this->fit !== null) {
             throw new \LogicException('Url fit is already set');
         }
+
         $this->fit = $fit;
+
         return $this;
+    }
+
+    public function getGravity(): string
+    {
+        if ($this->gravity === null) {
+            throw new \LogicException("Url gravity has not been set");
+        }
+
+        return $this->gravity;
     }
 
     public function setGravity(string $gravity): UrlInterface
     {
         if ($this->gravity !== null) {
-            throw new \LogicException('Url gravity is already set');
+            throw new \LogicException("Url gravity is already set");
         }
         $this->gravity = $gravity;
         return $this;
     }
 
+    public function getEnlarge(): bool
+    {
+        if ($this->enlarge === null) {
+            throw new \LogicException("Url enlarge has not been set");
+        }
+
+        return $this->enlarge;
+    }
+
     public function setEnlarge(bool $enlarge): UrlInterface
     {
         if ($this->enlarge !== null) {
-            throw new \LogicException('Url enlarge is already set');
+            throw new \LogicException("Url enlarge is already set");
         }
+
         $this->enlarge = $enlarge;
+
         return $this;
+    }
+
+    public function getExtension(): string
+    {
+        if ($this->extension === null) {
+            throw new \LogicException("Url extension has not been set");
+        }
+
+        return $this->extension;
     }
 
     public function setExtension(string $extension): UrlInterface
     {
         if ($this->extension !== null) {
-            throw new \LogicException('Url extension is already set');
+            throw new \LogicException("Url extension is already set");
         }
         $this->extension = $extension;
         return $this;

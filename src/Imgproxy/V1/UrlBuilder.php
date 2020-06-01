@@ -9,30 +9,19 @@ class UrlBuilder implements UrlBuilderInterface
     /**
      * @var string
      */
-    private $baseUrl;
+    protected $baseUrl;
     /**
      * @var string
      */
-    private $salt;
+    protected $salt;
     /**
      * @var string
      */
-    private $key;
+    protected $key;
     /**
      * @var bool
      */
-    private $secure;
-
-    public function construct(string $baseUrl, string $key = null, string $salt = null): UrlBuilderInterface
-    {
-        if ($key && $salt) {
-            $this->key = pack("H*" , $key) ?: $this->throwException("Key expected to be hex-encoded string");
-            $this->salt = pack("H*" , $salt) ?: $this->throwException("Salt expected to be hex-encoded string");
-            $this->secure = true;
-        }
-
-        $this->baseUrl = $baseUrl;
-    }
+    protected $secure;
 
     public function build(
         string $imageUrl,
@@ -43,6 +32,9 @@ class UrlBuilder implements UrlBuilderInterface
         bool $enlarge = false,
         string $extension = null
     ): UrlInterface {
+        // USE A URL FACTORY
+        // USE THE SETTERS
+        // DONT USE CONSTRUCTOR OR THE WORD NEW
         return (new Url($this, $imageUrl, $width, $height))
             ->setFit($fit)
             ->setGravity($gravity)
@@ -58,6 +50,17 @@ class UrlBuilder implements UrlBuilderInterface
         return $this->baseUrl;
     }
 
+    public function setBaseUrl(string $baseUrl): UrlBuilderInterface
+    {
+        if ($this->baseUrl !== null) {
+            throw new \LogicException('UrlBuilder base url is already set');
+        }
+
+        $this->baseUrl = $baseUrl;
+
+        return $this;
+    }
+
     public function getSalt(): string
     {
         if ($this->salt === null) {
@@ -66,12 +69,34 @@ class UrlBuilder implements UrlBuilderInterface
         return $this->salt;
     }
 
+    public function setSalt(string $salt): UrlBuilderInterface
+    {
+        if ($this->salt !== null) {
+            throw new \LogicException('UrlBuilder salt is already set');
+        }
+
+        $this->salt = $salt;
+
+        return $this;
+    }
+
     public function getKey(): string
     {
         if ($this->key === null) {
             throw new \LogicException('UrlBuilder key is not set');
         }
         return $this->key;
+    }
+
+    public function setKey(string $key): UrlBuilderInterface
+    {
+        if ($this->key !== null) {
+            throw new \LogicException('UrlBuilder key is already set');
+        }
+
+        $this->key = $key;
+
+        return $this;
     }
 
     public function isSecure(): bool

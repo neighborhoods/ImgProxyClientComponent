@@ -17,6 +17,8 @@ class Builder implements BuilderInterface
 
         $record = $this->getRecord();
 
+        $Url->setBuilder($record[UrlInterface::])
+
 
 
         return $Url;
