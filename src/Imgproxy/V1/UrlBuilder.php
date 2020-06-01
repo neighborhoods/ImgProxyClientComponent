@@ -23,25 +23,6 @@ class UrlBuilder implements UrlBuilderInterface
      */
     protected $secure;
 
-    public function build(
-        string $imageUrl,
-        int $width,
-        int $height,
-        string $fit,
-        string $gravity,
-        bool $enlarge = false,
-        string $extension = null
-    ): UrlInterface {
-        // USE A URL FACTORY
-        // USE THE SETTERS
-        // DONT USE CONSTRUCTOR OR THE WORD NEW
-        return (new Url($this, $imageUrl, $width, $height))
-            ->setFit($fit)
-            ->setGravity($gravity)
-            ->setEnlarge($enlarge)
-            ->setExtension($extension);
-    }
-
     public function getBaseUrl(): string
     {
         if ($this->baseUrl === null) {
