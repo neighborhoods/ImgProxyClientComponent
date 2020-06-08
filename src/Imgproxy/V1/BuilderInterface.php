@@ -9,7 +9,33 @@ interface BuilderInterface
 {
     public function build(): UrlInterface;
 
-    public function buildForInsert(): UrlInterface;
+    public function getWidth(): int;
+    public function setWidth(int $width): BuilderInterface;
 
-    public function setRecord(array $record): BuilderInterface;
+    public function getImageUrl(): string;
+    public function setImageUrl(string $imageUrl): BuilderInterface;
+
+    public function getHeight(): int;
+    public function setHeight(int $height): BuilderInterface;
+
+    public function getFit(): string;
+    public function setFit(string $fit): BuilderInterface;
+
+    public function getGravity(): string;
+    public function setGravity(string $gravity): BuilderInterface;
+
+    public function getEnlarge(): bool;
+    public function setEnlarge(bool $enlarge): BuilderInterface;
+
+    public function getExtension(): string;
+    public function setExtension(string $extension): BuilderInterface;
+
+    public function getSalt(): string;
+    public function setSalt(string $salt): BuilderInterface;
+
+    public function getKey(): string;
+    public function setKey(string $key): BuilderInterface;
+
+    public function getSecure(): bool;
+    public function setSecure(bool $secure): BuilderInterface;
 }

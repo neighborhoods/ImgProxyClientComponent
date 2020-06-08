@@ -6,7 +6,6 @@ namespace Neighborhoods\ImgProxyClientComponent\Imgproxy\V1;
 
 class Url implements UrlInterface
 {
-
     /**
      * @var string
      */
@@ -36,17 +35,25 @@ class Url implements UrlInterface
      */
     private $extension;
     /**
-     * @var UrlBuilder
+     * @var string
      */
-    private $builder;
+    protected $salt;
+    /**
+     * @var string
+     */
+    protected $key;
+    /**
+     * @var bool
+     */
+    protected $secure;
 
 
     public function unsignedPath(): string
     {
-        $enlarge = (string)(int)$this->enlarge;
-        $encodedUrl = rtrim(strtr(base64_encode($this->imageUrl), '+/', '-_'), '=');
-        $ext = $this->extension ?: $this->resolveExtension();
-        return "/{$this->fit}/{$this->width}/{$this->height}/{$this->gravity}/{$enlarge}/{$encodedUrl}" . ($ext ? ".$ext" : "");
+        $enlarge = (string)(int)$this->getEnlarge();
+        $encodedUrl = rtrim(strtr(base64_encode($this->getImageUrl()), '+/', '-_'), '=');
+        $ext = $this->getExtension() ?: $this->resolveExtension();
+        return "/{$this->getFit()}/{$this->getWidth()}/{$this->getHeight()}/{$this->getGravity()}/{$enlarge}/{$encodedUrl}" . ($ext ? ".$ext" : "");
     }
 
     public function insecureSignedPath(string $unsignedPath): string
@@ -56,8 +63,8 @@ class Url implements UrlInterface
 
     public function secureSignedPath(string $unsignedPath): string
     {
-        $data = $this->builder->getSalt() . $unsignedPath;
-        $sha256 = hash_hmac('sha256', $data, $this->builder->getKey(), true);
+        $data = $this->getSalt() . $unsignedPath;
+        $sha256 = hash_hmac('sha256', $data, $this->getKey(), true);
         $sha256Encoded = base64_encode($sha256);
         $signature = str_replace(["+", "/", "="], ["-", "_", ""], $sha256Encoded);;
         return "/{$signature}{$unsignedPath}";
@@ -66,15 +73,17 @@ class Url implements UrlInterface
     public function signedPath(): string
     {
         $unsignedPath = $this->unsignedPath();
-        $result = $this->builder->isSecure() ? $this->secureSignedPath($unsignedPath) : $this->insecureSignedPath($unsignedPath);
-        return $result;
+        return $this->isSecure() ? $this->secureSignedPath($unsignedPath) : $this->insecureSignedPath($unsignedPath);
     }
 
     public function toString(): string
     {
-        return $this->builder->getBaseUrl() . $this->signedPath();
+        return $this->getImageUrl() . $this->signedPath();
     }
 
+    /**
+     * @return string
+     */
     public function getImageUrl(): string
     {
         if ($this->imageUrl === null) {
@@ -84,6 +93,10 @@ class Url implements UrlInterface
         return $this->imageUrl;
     }
 
+    /**
+     * @param string $imageUrl
+     * @return UrlInterface
+     */
     public function setImageUrl(string $imageUrl): UrlInterface
     {
         if ($this->imageUrl !== null) {
@@ -95,26 +108,9 @@ class Url implements UrlInterface
         return $this;
     }
 
-    public function getBuilder(): UrlBuilder
-    {
-        if ($this->builder === null) {
-            throw new \LogicException("Url builder has not been set");
-        }
-
-        return $this->builder;
-    }
-
-    public function setBuilder(UrlBuilder $builder): UrlInterface
-    {
-        if ($this->builder !== null) {
-            throw new \LogicException("Url builder is already set");
-        }
-
-        $this->builder = $builder;
-
-        return $this;
-    }
-
+    /**
+     * @return mixed
+     */
     public function getWidth(): int
     {
         if ($this->width === null) {
@@ -124,6 +120,10 @@ class Url implements UrlInterface
         return $this->width;
     }
 
+    /**
+     * @param mixed $width
+     * @return UrlInterface
+     */
     public function setWidth(int $width): UrlInterface
     {
         if ($this->width !== null) {
@@ -135,6 +135,9 @@ class Url implements UrlInterface
         return $this;
     }
 
+    /**
+     * @return int
+     */
     public function getHeight(): int
     {
         if ($this->height === null) {
@@ -144,6 +147,10 @@ class Url implements UrlInterface
         return $this->height;
     }
 
+    /**
+     * @param int $height
+     * @return UrlInterface
+     */
     public function setHeight(int $height): UrlInterface
     {
         if ($this->height !== null) {
@@ -155,6 +162,9 @@ class Url implements UrlInterface
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getFit(): string
     {
         if ($this->fit === null) {
@@ -164,6 +174,10 @@ class Url implements UrlInterface
         return $this->fit;
     }
 
+    /**
+     * @param string $fit
+     * @return UrlInterface
+     */
     public function setFit(string $fit): UrlInterface
     {
         if ($this->fit !== null) {
@@ -175,6 +189,9 @@ class Url implements UrlInterface
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getGravity(): string
     {
         if ($this->gravity === null) {
@@ -184,15 +201,24 @@ class Url implements UrlInterface
         return $this->gravity;
     }
 
+    /**
+     * @param string $gravity
+     * @return UrlInterface
+     */
     public function setGravity(string $gravity): UrlInterface
     {
         if ($this->gravity !== null) {
             throw new \LogicException("Url gravity is already set");
         }
+
         $this->gravity = $gravity;
+
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function getEnlarge(): bool
     {
         if ($this->enlarge === null) {
@@ -202,6 +228,10 @@ class Url implements UrlInterface
         return $this->enlarge;
     }
 
+    /**
+     * @param bool $enlarge
+     * @return UrlInterface
+     */
     public function setEnlarge(bool $enlarge): UrlInterface
     {
         if ($this->enlarge !== null) {
@@ -213,6 +243,9 @@ class Url implements UrlInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getExtension(): string
     {
         if ($this->extension === null) {
@@ -222,6 +255,10 @@ class Url implements UrlInterface
         return $this->extension;
     }
 
+    /**
+     * @param string|null $extension
+     * @return UrlInterface
+     */
     public function setExtension(string $extension): UrlInterface
     {
         if ($this->extension !== null) {
@@ -231,12 +268,90 @@ class Url implements UrlInterface
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getSalt(): string
+    {
+        if ($this->salt === null) {
+            throw new \LogicException('Url salt is not set');
+        }
+        return $this->salt;
+    }
+
+    /**
+     * @param string $salt
+     * @return UrlInterface
+     */
+    public function setSalt(string $salt): UrlInterface
+    {
+        if ($this->salt !== null) {
+            throw new \LogicException('Url salt is already set');
+        }
+
+        $this->salt = $salt;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getKey(): string
+    {
+        if ($this->key === null) {
+            throw new \LogicException('Url key is not set');
+        }
+        return $this->key;
+    }
+
+    /**
+     * @param string $key
+     * @return UrlInterface
+     */
+    public function setKey(string $key): UrlInterface
+    {
+        if ($this->key !== null) {
+            throw new \LogicException('Url key is already set');
+        }
+
+        $this->key = $key;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getSecure(): bool
+    {
+        if ($this->secure === null) {
+            throw new \LogicException('Url secure is not set');
+        }
+        return $this->secure;
+    }
+
+    /**
+     * @param bool $secure
+     * @return UrlInterface
+     */
+    public function setSecure(bool $secure): UrlInterface
+    {
+        if ($this->secure !== null) {
+            throw new \LogicException('Url secure is not set');
+        }
+        $this->secure = $secure;
+
+        return $this;
+    }
+
+
     public function resolveExtension(): string
     {
-        if ("local://" === substr($this->imageUrl, 0, 8)) {
-            $path = substr($this->imageUrl, 8);
+        if ("local://" === substr($this->getImageUrl(), 0, 8)) {
+            $path = substr($this->getImageUrl(), 8);
         } else {
-            $path = parse_url($this->imageUrl, PHP_URL_PATH);
+            $path = parse_url($this->getImageUrl(), PHP_URL_PATH);
         }
 
         $ext = $path ? pathinfo($path, PATHINFO_EXTENSION) : "";

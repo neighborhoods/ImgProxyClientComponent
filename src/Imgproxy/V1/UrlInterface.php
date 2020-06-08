@@ -17,9 +17,6 @@ interface UrlInterface
     public function getImageUrl() : string;
     public function setImageUrl(string $imageUrl) : UrlInterface;
 
-    public function getBuilder() : UrlBuilder;
-    public function setBuilder(UrlBuilder $builder) : UrlInterface;
-
     public function getWidth() : int;
     public function setWidth(int $width) : UrlInterface;
 
@@ -37,6 +34,15 @@ interface UrlInterface
 
     public function getExtension() : string;
     public function setExtension(string $extension) : UrlInterface;
+
+    public function getSalt() : string;
+    public function setSalt(string $salt) : UrlInterface;
+
+    public function getKey() : string;
+    public function setKey(string $key) : UrlInterface;
+
+    public function getSecure() : bool;
+    public function setSecure(bool $secure) : UrlInterface;
 
     public function resolveExtension() : string;
 }

@@ -9,48 +9,325 @@ class Builder implements BuilderInterface
 {
     use Factory\AwareTrait;
 
-    protected $record;
+    /**
+     * @var string
+     */
+    private $imageUrl;
+    /**
+     * @var int
+     */
+    private $width;
+    /**
+     * @var int
+     */
+    private $height;
+    /**
+     * @var string
+     */
+    private $fit;
+    /**
+     * @var string
+     */
+    private $gravity;
+    /**
+     * @var bool
+     */
+    private $enlarge;
+    /**
+     * @var string|null
+     */
+    private $extension;
+    /**
+     * @var string
+     */
+    protected $salt;
+    /**
+     * @var string
+     */
+    protected $key;
+    /**
+     * @var bool
+     */
+    protected $secure;
 
     public function build(): UrlInterface
     {
         $Url = $this->getImgproxyV1UrlFactory()->create();
 
-        $record = $this->getRecord();
-
-        $Url->setBuilder($record[UrlInterface::])
-
-
-
-        return $Url;
-    }
-
-    public function buildForInsert(): UrlInterface
-    {
-        $Url = $this->getImgproxyV1UrlFactory()->create();
-
-        $record = $this->getRecord();
-
-
+        $Url->setWidth($this->getWidth())
+            ->setHeight($this->getHeight())
+            ->setEnlarge($this->getEnlarge())
+            ->setExtension($this->getExtension())
+            ->setFit($this->getFit())
+            ->setGravity($this->getGravity())
+            ->setImageUrl($this->getImageUrl())
+            ->setKey($this->getKey())
+            ->setSalt($this->getSalt())
+            ->setSecure($this->getSecure());
 
         return $Url;
     }
 
-    protected function getRecord(): array
+    /**
+     * @return mixed
+     */
+    public function getWidth(): int
     {
-        if ($this->record === null) {
-            throw new \LogicException('Builder record has not been set.');
+        if ($this->width === null) {
+            throw new \LogicException("Url width has not been set");
         }
 
-        return $this->record;
+        return $this->width;
     }
 
-    public function setRecord(array $record): BuilderInterface
+    /**
+     * @param mixed $width
+     * @return BuilderInterface
+     */
+    public function setWidth(int $width): BuilderInterface
     {
-        if ($this->record !== null) {
-            throw new \LogicException('Builder record is already set.');
+        if ($this->width !== null) {
+            throw new \LogicException("Url width is already set.");
         }
 
-        $this->record = $record;
+        $this->width = $width;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageUrl(): string
+    {
+        if ($this->imageUrl === null) {
+            throw new \LogicException("Url image url has not been set");
+        }
+
+        return $this->imageUrl;
+    }
+
+    /**
+     * @param string $imageUrl
+     * @return BuilderInterface
+     */
+    public function setImageUrl(string $imageUrl): BuilderInterface
+    {
+        if ($this->imageUrl !== null) {
+            throw new \LogicException("Url image url is already set");
+        }
+
+        $this->imageUrl = $imageUrl;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getHeight(): int
+    {
+        if ($this->height === null) {
+            throw new \LogicException("Url height has not been set");
+        }
+
+        return $this->height;
+    }
+
+    /**
+     * @param int $height
+     * @return BuilderInterface
+     */
+    public function setHeight(int $height): BuilderInterface
+    {
+        if ($this->height !== null) {
+            throw new \LogicException("Url height is already set");
+        }
+
+        $this->height = $height;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFit(): string
+    {
+        if ($this->fit === null) {
+            throw new \LogicException("Url fit has not been set");
+        }
+
+        return $this->fit;
+    }
+
+    /**
+     * @param string $fit
+     * @return BuilderInterface
+     */
+    public function setFit(string $fit): BuilderInterface
+    {
+        if ($this->fit !== null) {
+            throw new \LogicException('Url fit is already set');
+        }
+
+        $this->fit = $fit;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGravity(): string
+    {
+        if ($this->gravity === null) {
+            throw new \LogicException("Url gravity has not been set");
+        }
+
+        return $this->gravity;
+    }
+
+    /**
+     * @param string $gravity
+     * @return BuilderInterface
+     */
+    public function setGravity(string $gravity): BuilderInterface
+    {
+        if ($this->gravity !== null) {
+            throw new \LogicException("Url gravity is already set");
+        }
+
+        $this->gravity = $gravity;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getEnlarge(): bool
+    {
+        if ($this->enlarge === null) {
+            throw new \LogicException("Url enlarge has not been set");
+        }
+
+        return $this->enlarge;
+    }
+
+    /**
+     * @param bool $enlarge
+     * @return BuilderInterface
+     */
+    public function setEnlarge(bool $enlarge): BuilderInterface
+    {
+        if ($this->enlarge !== null) {
+            throw new \LogicException("Url enlarge is already set");
+        }
+
+        $this->enlarge = $enlarge;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getExtension(): string
+    {
+        if ($this->extension === null) {
+            throw new \LogicException("Url extension has not been set");
+        }
+
+        return $this->extension;
+    }
+
+    /**
+     * @param string|null $extension
+     * @return BuilderInterface
+     */
+    public function setExtension(?string $extension): BuilderInterface
+    {
+        if ($this->extension !== null) {
+            throw new \LogicException("Url extension is already set");
+        }
+        $this->extension = $extension;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSalt(): string
+    {
+        if ($this->salt === null) {
+            throw new \LogicException('Url salt is not set');
+        }
+        return $this->salt;
+    }
+
+    /**
+     * @param string $salt
+     * @return BuilderInterface
+     */
+    public function setSalt(string $salt): BuilderInterface
+    {
+        if ($this->salt !== null) {
+            throw new \LogicException('Url salt is already set');
+        }
+
+        $this->salt = $salt;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getKey(): string
+    {
+        if ($this->key === null) {
+            throw new \LogicException('Url key is not set');
+        }
+        return $this->key;
+    }
+
+    /**
+     * @param string $key
+     * @return BuilderInterface
+     */
+    public function setKey(string $key): BuilderInterface
+    {
+        if ($this->key !== null) {
+            throw new \LogicException('Url key is already set');
+        }
+
+        $this->key = $key;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getSecure(): bool
+    {
+        if ($this->secure === null) {
+            throw new \LogicException('Url secure is not set');
+        }
+        return $this->secure;
+    }
+
+    /**
+     * @param bool $secure
+     * @return BuilderInterface
+     */
+    public function setSecure(bool $secure): BuilderInterface
+    {
+        if ($this->secure !== null) {
+            throw new \LogicException('Url secure is not set');
+        }
+        $this->secure = $secure;
 
         return $this;
     }
