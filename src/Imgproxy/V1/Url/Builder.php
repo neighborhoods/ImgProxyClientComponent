@@ -54,18 +54,26 @@ class Builder implements BuilderInterface
     {
         $Url = $this->getImgproxyV1UrlFactory()->create();
 
-        $Url->setWidth($this->getWidth())
-            ->setHeight($this->getHeight())
-            ->setEnlarge($this->getEnlarge())
-            ->setExtension($this->getExtension())
-            ->setFit($this->getFit())
-            ->setGravity($this->getGravity())
-            ->setImageUrl($this->getImageUrl())
-            ->setKey($this->getKey())
-            ->setSalt($this->getSalt())
-            ->setSecure($this->getSecure());
+        $Url->setSecureSignedPath($this->unsignedPath());
 
         return $Url;
+    }
+
+    public function unsignedPath(): string
+    {
+        $enlarge = (string)(int)$this->getEnlarge();
+        $encodedUrl = rtrim(strtr(base64_encode($this->getImageUrl()), '+/', '-_'), '=');
+        $ext = $this->getExtension() ?: $this->resolveExtension();
+        return "/{$this->getFit()}/{$this->getWidth()}/{$this->getHeight()}/{$this->getGravity()}/{$enlarge}/{$encodedUrl}" . ($ext ? ".$ext" : "");
+    }
+
+    public function secureSignedPath(string $unsignedPath): string
+    {
+        $data = $this->getSalt() . $unsignedPath;
+        $sha256 = hash_hmac('sha256', $data, $this->getKey(), true);
+        $sha256Encoded = base64_encode($sha256);
+        $signature = str_replace(["+", "/", "="], ["-", "_", ""], $sha256Encoded);;
+        return "/{$signature}{$unsignedPath}";
     }
 
     /**
@@ -330,5 +338,17 @@ class Builder implements BuilderInterface
         $this->secure = $secure;
 
         return $this;
+    }
+
+    public function resolveExtension(): string
+    {
+        if ("local://" === substr($this->getImageUrl(), 0, 8)) {
+            $path = substr($this->getImageUrl(), 8);
+        } else {
+            $path = parse_url($this->getImageUrl(), PHP_URL_PATH);
+        }
+
+        $ext = $path ? pathinfo($path, PATHINFO_EXTENSION) : "";
+        return $ext ?: "";
     }
 }
