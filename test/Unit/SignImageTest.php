@@ -17,7 +17,6 @@ class SignImageTest extends TestCase
 
         $urlBuilder->setSalt('Fake Salt')
             ->setKey('Fake Key')
-            ->setSecure(true)
             ->setImageUrl('https://nhds-cms-service-prod.s3.amazonaws.com/career-page/private/1.jpg')
             ->setFit('fit')
             ->setGravity('sm')
