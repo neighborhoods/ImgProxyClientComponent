@@ -1,11 +1,6 @@
-parameters:
-  Neighborhoods\ImgProxyClientComponent\Imgproxy\V1\UrlInterface.url.nhds: '%env(IMGPROXY_URL_NHDS)%'
-  Neighborhoods\ImgProxyClientComponent\Imgproxy\V1\UrlInterface.secret: '%env(IMGPROXY_SECRET)%'
 services:
   Neighborhoods\ImgProxyClientComponent\Imgproxy\V1\UrlInterface:
     class: Neighborhoods\ImgProxyClientComponent\Imgproxy\V1\UrlInterface
     public: false
     shared: false
     calls:
-      - [setImgproxyEndpoint, ['%Neighborhoods\ImgProxyClientComponent\ImgProxy\V1\UrlInterface.url.nhds%']]
-      - [setImgproxySecret, ['%Neighborhoods\ImgProxyClientComponent\ImgProxy\V1\UrlInterface.secret%']]
