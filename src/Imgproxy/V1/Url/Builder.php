@@ -61,7 +61,7 @@ class Builder implements BuilderInterface
         return $Url;
     }
 
-    public function unsignedPath(): string
+    protected function buildUnsignedPath(): string
     {
         $enlarge = (string)(int)$this->getEnlarge();
         $encodedUrl = rtrim(strtr(base64_encode($this->getImageUrl()), '+/', '-_'), '=');
