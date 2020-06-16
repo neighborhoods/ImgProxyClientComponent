@@ -1,7 +1,0 @@
-services:
-  Neighborhoods\ImgProxyClientComponent\Imgproxy\V1\Url\Url\FactoryInterface:
-    class: Neighborhoods\ImgProxyClientComponent\Imgproxy\V1\Url\Url\Factory
-    public: false
-    shared: true
-    calls:
-      - [setImgproxyV1UrlUrl, ['@Neighborhoods\ImgProxyClientComponent\Imgproxy\V1\Url\UrlInterface']]
