@@ -50,14 +50,14 @@ class Builder implements BuilderInterface
     {
         $Url = $this->getImgproxyV1UrlFactory()->create();
 
-        $secureSignedPath = $this->secureSignedPath($this->unsignedPath());
+        $secureSignedPath = $this->secureSignedPath($this->buildUnsignedPath());
 
         $Url->setSecureSignedPath($secureSignedPath);
 
         return $Url;
     }
 
-    protected function buildUnsignedPath(): string
+    public function buildUnsignedPath(): string
     {
         $enlarge = (string)(int)$this->getEnlarge();
         $encodedUrl = rtrim(strtr(base64_encode($this->getImageUrl()), '+/', '-_'), '=');

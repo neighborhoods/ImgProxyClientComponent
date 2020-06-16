@@ -9,7 +9,7 @@ interface BuilderInterface
 {
     public function build(): UrlInterface;
 
-    public function unsignedPath(): string;
+    public function buildUnsignedPath(): string;
 
     public function secureSignedPath(string $unsignedPath): string;
 
