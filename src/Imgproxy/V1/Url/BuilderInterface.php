@@ -40,8 +40,5 @@ interface BuilderInterface
     public function getKey(): string;
     public function setKey(string $key): BuilderInterface;
 
-    public function getSecure(): bool;
-    public function setSecure(bool $secure): BuilderInterface;
-
     public function resolveExtension(): string;
 }

@@ -45,10 +45,6 @@ class Builder implements BuilderInterface
      * @var string
      */
     protected $key;
-    /**
-     * @var bool
-     */
-    protected $secure;
 
     public function build(): UrlInterface
     {
@@ -313,31 +309,6 @@ class Builder implements BuilderInterface
         }
 
         $this->key = $key;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getSecure(): bool
-    {
-        if ($this->secure === null) {
-            throw new \LogicException('Url secure is not set');
-        }
-        return $this->secure;
-    }
-
-    /**
-     * @param bool $secure
-     * @return BuilderInterface
-     */
-    public function setSecure(bool $secure): BuilderInterface
-    {
-        if ($this->secure !== null) {
-            throw new \LogicException('Url secure is not set');
-        }
-        $this->secure = $secure;
 
         return $this;
     }
