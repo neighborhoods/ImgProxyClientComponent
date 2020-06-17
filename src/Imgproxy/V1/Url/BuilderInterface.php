@@ -9,10 +9,6 @@ interface BuilderInterface
 {
     public function build(): UrlInterface;
 
-    public function buildUnsignedPath(): string;
-
-    public function buildSecureSignedPath(string $unsignedPath): string;
-
     public function getWidth(): int;
     public function setWidth(int $width): BuilderInterface;
 

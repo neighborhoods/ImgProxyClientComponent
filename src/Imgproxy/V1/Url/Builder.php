@@ -58,7 +58,7 @@ class Builder implements BuilderInterface
         return $Url;
     }
 
-    public function buildUnsignedPath(): string
+    protected function buildUnsignedPath(): string
     {
         $enlarge = (string)(int)$this->getEnlarge();
         $encodedUrl = rtrim(strtr(base64_encode($this->getImageUrl()), '+/', '-_'), '=');
@@ -66,7 +66,7 @@ class Builder implements BuilderInterface
         return "/{$this->getFit()}/{$this->getWidth()}/{$this->getHeight()}/{$this->getGravity()}/{$enlarge}/{$encodedUrl}" . ($ext ? ".$ext" : "");
     }
 
-    public function buildSecureSignedPath(string $unsignedPath): string
+    protected function buildSecureSignedPath(string $unsignedPath): string
     {
         $data = $this->getSalt() . $unsignedPath;
         $sha256 = hash_hmac('sha256', $data, $this->getKey(), true);
