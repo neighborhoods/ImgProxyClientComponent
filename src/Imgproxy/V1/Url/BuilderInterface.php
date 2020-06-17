@@ -39,6 +39,4 @@ interface BuilderInterface
 
     public function getKey(): string;
     public function setKey(string $key): BuilderInterface;
-
-    public function resolveExtension(): string;
 }
