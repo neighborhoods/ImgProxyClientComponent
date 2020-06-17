@@ -313,16 +313,4 @@ class Builder implements BuilderInterface
 
         return $this;
     }
-
-    public function resolveExtension(): string
-    {
-        if ("local://" === substr($this->getImageUrl(), 0, 8)) {
-            $path = substr($this->getImageUrl(), 8);
-        } else {
-            $path = parse_url($this->getImageUrl(), PHP_URL_PATH);
-        }
-
-        $ext = $path ? pathinfo($path, PATHINFO_EXTENSION) : "";
-        return $ext ?: "";
-    }
 }
