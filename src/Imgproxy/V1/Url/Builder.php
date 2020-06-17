@@ -50,7 +50,7 @@ class Builder implements BuilderInterface
     {
         $Url = $this->getImgproxyV1UrlFactory()->create();
 
-        $secureSignedPath = $this->secureSignedPath($this->buildUnsignedPath());
+        $secureSignedPath = $this->buildSecureSignedPath($this->buildUnsignedPath());
 
         $Url->setSecureSignedPath($secureSignedPath);
 
@@ -65,7 +65,7 @@ class Builder implements BuilderInterface
         return "/{$this->getFit()}/{$this->getWidth()}/{$this->getHeight()}/{$this->getGravity()}/{$enlarge}/{$encodedUrl}" . ($ext ? ".$ext" : "");
     }
 
-    public function secureSignedPath(string $unsignedPath): string
+    public function buildSecureSignedPath(string $unsignedPath): string
     {
         $data = $this->getSalt() . $unsignedPath;
         $sha256 = hash_hmac('sha256', $data, $this->getKey(), true);

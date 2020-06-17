@@ -11,7 +11,7 @@ interface BuilderInterface
 
     public function buildUnsignedPath(): string;
 
-    public function secureSignedPath(string $unsignedPath): string;
+    public function buildSecureSignedPath(string $unsignedPath): string;
 
     public function getWidth(): int;
     public function setWidth(int $width): BuilderInterface;
