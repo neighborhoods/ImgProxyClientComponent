@@ -62,7 +62,7 @@ class Builder implements BuilderInterface
     {
         $enlarge = (string)(int)$this->getEnlarge();
         $encodedUrl = rtrim(strtr(base64_encode($this->getImageUrl()), '+/', '-_'), '=');
-        $ext = $this->getExtension() ?: $this->resolveExtension();
+        $ext = $this->getExtension();
         return "/{$this->getFit()}/{$this->getWidth()}/{$this->getHeight()}/{$this->getGravity()}/{$enlarge}/{$encodedUrl}" . ($ext ? ".$ext" : "");
     }
 
