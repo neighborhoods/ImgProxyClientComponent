@@ -28,7 +28,7 @@ interface BuilderInterface
     public function setEnlarge(bool $enlarge): BuilderInterface;
 
     public function getExtension(): string;
-    public function setExtension(string $extension): BuilderInterface;
+    public function setExtension(?string $extension): BuilderInterface;
 
     public function getSalt(): string;
     public function setSalt(string $salt): BuilderInterface;

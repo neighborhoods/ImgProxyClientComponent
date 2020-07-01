@@ -209,6 +209,10 @@ class Builder implements BuilderInterface
 
     public function getExtension(): string
     {
+        if ($this->extension === null) {
+            throw new \LogicException("Url extension has not been set");
+        }
+
         return $this->extension;
     }
 
@@ -219,8 +223,10 @@ class Builder implements BuilderInterface
 
     public function setExtension(?string $extension): BuilderInterface
     {
+        if ($this->extension !== null) {
+            throw new \LogicException("Url extension is already set");
+        }
         $this->extension = $extension;
-        
         return $this;
     }
 
