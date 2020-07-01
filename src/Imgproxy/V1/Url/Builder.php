@@ -62,8 +62,20 @@ class Builder implements BuilderInterface
     {
         $enlarge = (string)(int)$this->getEnlarge();
         $encodedUrl = rtrim(strtr(base64_encode($this->getImageUrl()), '+/', '-_'), '=');
-        $ext = $this->getExtension();
-        return "/{$this->getFit()}/{$this->getWidth()}/{$this->getHeight()}/{$this->getGravity()}/{$enlarge}/{$encodedUrl}" . ($ext ? ".$ext" : "");
+
+        $fit = $this->getFit();
+        $width = $this->getWidth();
+        $height = $this->getHeight();
+        $gravity = $this->getGravity();
+
+        $unsignedPath = "/$fit/$width/$height/$gravity/$enlarge/$encodedUrl";
+
+        if ($this->hasExtension()) {
+            $urlExtension = $this->getExtension();
+            $unsignedPath = $unsignedPath . ".$urlExtension";
+        }
+
+        return $unsignedPath;
     }
 
     protected function buildSecureSignedPath(string $unsignedPath): string
@@ -75,9 +87,6 @@ class Builder implements BuilderInterface
         return "/{$signature}{$unsignedPath}";
     }
 
-    /**
-     * @return mixed
-     */
     public function getWidth(): int
     {
         if ($this->width === null) {
@@ -87,10 +96,6 @@ class Builder implements BuilderInterface
         return $this->width;
     }
 
-    /**
-     * @param mixed $width
-     * @return BuilderInterface
-     */
     public function setWidth(int $width): BuilderInterface
     {
         if ($this->width !== null) {
@@ -102,9 +107,6 @@ class Builder implements BuilderInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getImageUrl(): string
     {
         if ($this->imageUrl === null) {
@@ -114,10 +116,6 @@ class Builder implements BuilderInterface
         return $this->imageUrl;
     }
 
-    /**
-     * @param string $imageUrl
-     * @return BuilderInterface
-     */
     public function setImageUrl(string $imageUrl): BuilderInterface
     {
         if ($this->imageUrl !== null) {
@@ -129,9 +127,6 @@ class Builder implements BuilderInterface
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getHeight(): int
     {
         if ($this->height === null) {
@@ -141,10 +136,6 @@ class Builder implements BuilderInterface
         return $this->height;
     }
 
-    /**
-     * @param int $height
-     * @return BuilderInterface
-     */
     public function setHeight(int $height): BuilderInterface
     {
         if ($this->height !== null) {
@@ -156,9 +147,6 @@ class Builder implements BuilderInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getFit(): string
     {
         if ($this->fit === null) {
@@ -168,10 +156,6 @@ class Builder implements BuilderInterface
         return $this->fit;
     }
 
-    /**
-     * @param string $fit
-     * @return BuilderInterface
-     */
     public function setFit(string $fit): BuilderInterface
     {
         if ($this->fit !== null) {
@@ -183,9 +167,6 @@ class Builder implements BuilderInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getGravity(): string
     {
         if ($this->gravity === null) {
@@ -195,10 +176,6 @@ class Builder implements BuilderInterface
         return $this->gravity;
     }
 
-    /**
-     * @param string $gravity
-     * @return BuilderInterface
-     */
     public function setGravity(string $gravity): BuilderInterface
     {
         if ($this->gravity !== null) {
@@ -210,9 +187,6 @@ class Builder implements BuilderInterface
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function getEnlarge(): bool
     {
         if ($this->enlarge === null) {
@@ -222,10 +196,6 @@ class Builder implements BuilderInterface
         return $this->enlarge;
     }
 
-    /**
-     * @param bool $enlarge
-     * @return BuilderInterface
-     */
     public function setEnlarge(bool $enlarge): BuilderInterface
     {
         if ($this->enlarge !== null) {
@@ -237,34 +207,23 @@ class Builder implements BuilderInterface
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getExtension(): string
     {
-        if ($this->extension === null) {
-            throw new \LogicException("Url extension has not been set");
-        }
-
         return $this->extension;
     }
 
-    /**
-     * @param string|null $extension
-     * @return BuilderInterface
-     */
+    public function hasExtension(): bool
+    {
+        return $this->extension !== null;
+    }
+
     public function setExtension(?string $extension): BuilderInterface
     {
-        if ($this->extension !== null) {
-            throw new \LogicException("Url extension is already set");
-        }
         $this->extension = $extension;
+        
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSalt(): string
     {
         if ($this->salt === null) {
@@ -273,10 +232,6 @@ class Builder implements BuilderInterface
         return $this->salt;
     }
 
-    /**
-     * @param string $salt
-     * @return BuilderInterface
-     */
     public function setSalt(string $salt): BuilderInterface
     {
         if ($this->salt !== null) {
@@ -288,9 +243,6 @@ class Builder implements BuilderInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getKey(): string
     {
         if ($this->key === null) {
@@ -299,10 +251,6 @@ class Builder implements BuilderInterface
         return $this->key;
     }
 
-    /**
-     * @param string $key
-     * @return BuilderInterface
-     */
     public function setKey(string $key): BuilderInterface
     {
         if ($this->key !== null) {
