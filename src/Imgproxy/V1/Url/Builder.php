@@ -9,41 +9,14 @@ class Builder implements BuilderInterface
 {
     use Factory\AwareTrait;
 
-    /**
-     * @var string
-     */
     private $imageUrl;
-    /**
-     * @var int
-     */
     private $width;
-    /**
-     * @var int
-     */
     private $height;
-    /**
-     * @var string
-     */
     private $fit;
-    /**
-     * @var string
-     */
     private $gravity;
-    /**
-     * @var bool
-     */
     private $enlarge;
-    /**
-     * @var string|null
-     */
     private $extension;
-    /**
-     * @var string
-     */
     protected $salt;
-    /**
-     * @var string
-     */
     protected $key;
 
     public function build(): UrlInterface
