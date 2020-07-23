@@ -35,5 +35,27 @@
     "php": "^7.3",
     "neighborhoods/buphalo": "^1.1",
     "neighborhoods/bakery": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Neighborhoods\\ImgProxyClientComponent\\": [
+        "src",
+        "fab"
+      ]
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Neighborhoods\\ImgProxyClientComponent\\": [
+        "src/",
+        "test-fab/"
+      ],
+      "Neighborhoods\\ImgProxyClientComponentTest\\Unit\\": [
+        "test/"
+      ]
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.0"
   }
 }
