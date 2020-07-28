@@ -1,6 +1,6 @@
 services:
   Neighborhoods\ImgProxyClientComponent\Imgproxy\V1\UrlInterface:
-    class: Neighborhoods\ImgProxyClientComponent\Imgproxy\V1\UrlInterface
+    class: Neighborhoods\ImgProxyClientComponent\Imgproxy\V1\Url
     public: false
     shared: false
     calls:
