@@ -53,8 +53,11 @@ class Builder implements BuilderInterface
 
     protected function buildSecureSignedPath(string $unsignedPath): string
     {
-        $data = $this->getSalt() . $unsignedPath;
-        $sha256 = hash_hmac('sha256', $data, $this->getKey(), true);
+        $saltBinary = pack("H*" , $this->getSalt());
+        $data = $saltBinary . $unsignedPath;
+
+        $keyBinary = pack("H*" , $this->getKey());
+        $sha256 = hash_hmac('sha256', $data, $keyBinary, true);
         $sha256Encoded = base64_encode($sha256);
         $signature = str_replace(["+", "/", "="], ["-", "_", ""], $sha256Encoded);;
         return "/{$signature}{$unsignedPath}";

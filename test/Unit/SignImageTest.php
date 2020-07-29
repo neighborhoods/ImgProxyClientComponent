@@ -9,24 +9,26 @@ class SignImageTest extends TestCase
     /**
      * @test
      */
-    public function shouldBuildSignedImage()
+    public function shouldBuildExampleSignedImage()
     {
         $urlBuilder = new Neighborhoods\ImgProxyClientComponent\Imgproxy\V1\Url\Builder();
         $imgproxyV1UrlFactory = new \Neighborhoods\ImgProxyClientComponent\Imgproxy\V1\Url\Factory();
         $imgproxyV1UrlFactory->setImgproxyV1Url(new \Neighborhoods\ImgProxyClientComponent\Imgproxy\V1\Url());
 
-        $urlBuilder->setSalt('Fake Salt')
-            ->setKey('Fake Key')
-            ->setImageUrl('https://nhds-cms-service-prod.s3.amazonaws.com/career-page/private/1.jpg')
-            ->setFit('fit')
-            ->setGravity('sm')
-            ->setEnlarge(false)
-            ->setExtension('null')
-            ->setHeight(200)
+        $urlBuilder->setSalt('520f986b998545b4785e0defbc4f3c1203f22de2374a3d53cb7a7fe9fea309c5')
+            ->setKey('943b421c9eb07c830af81030552c86009268de4e532ba2ee2eab8247c6da0881')
+            ->setImageUrl('http://img.example.com/pretty/image.jpg')
+            ->setFit('fill')
+            ->setGravity('no')
+            ->setEnlarge(true)
+            ->setExtension('png')
+            ->setHeight(300)
             ->setWidth(300);
 
         $url = $urlBuilder->setImgproxyV1UrlFactory($imgproxyV1UrlFactory)->build();
 
-        $this->assertEquals('/0MBh4uk0iRF0HyMbHZlaZXY_RbnWC-g1QIKu-WYPz6s/fit/300/200/sm/0/aHR0cHM6Ly9uaGRzLWNtcy1zZXJ2aWNlLXByb2QuczMuYW1hem9uYXdzLmNvbS9jYXJlZXItcGFnZS9wcml2YXRlLzEuanBn.null', $url->getSecureSignedPath());
+        $this->assertEquals('/_PQ4ytCQMMp-1w1m_vP6g8Qb-Q7yF9mwghf6PddqxLw/fill/300/300/no/1/aHR0cDovL2ltZy5leGFtcGxlLmNvbS9wcmV0dHkvaW1hZ2UuanBn.png', $url->getSecureSignedPath());
     }
+
+
 }
