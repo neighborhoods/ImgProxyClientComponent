@@ -37,6 +37,10 @@ Basic Documention for each field
 
 use Neighborhoods\ImgProxyClientComponent\Imgproxy\V1\Url
 
+    protected $imgproxyUrl;
+    protected $key;
+    protected $salt;
+
     protected function buildSecureSignedPath(string $image) : string
     {
         $urlBuilder = $this->getImgproxyV1UrlBuilderFactory()->create();
