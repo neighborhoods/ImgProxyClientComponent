@@ -1,6 +1,6 @@
 # ImgProxyClientComponent
 
-A Client Component to interact with `Imgproxy`
+A Client Component to generate `Imgproxy` URLs
 
 `Imgproxy` is a fast and secure standalone server for resizing and converting remote images
 
