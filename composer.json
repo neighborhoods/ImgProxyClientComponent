@@ -36,6 +36,7 @@
     "neighborhoods/buphalo": "^1.1",
     "neighborhoods/bakery": "^1.0"
   },
+  "license": "MIT",
   "autoload": {
     "psr-4": {
       "Neighborhoods\\ImgProxyClientComponent\\": [
