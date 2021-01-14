@@ -1,7 +1,7 @@
 {
   "name": "neighborhoods/imgproxy-client-component",
   "type": "library",
-  "description": "A component used to interact with imgproxy",
+  "description": "A Client Component to generate Imgproxy URLs",
   "authors": [
     {
       "name": "Nathaniel Alvarado",
