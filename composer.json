@@ -33,7 +33,6 @@
   ],
   "require": {
     "php": "^7.3",
-    "neighborhoods/buphalo": "^1.1",
     "neighborhoods/bakery": "^1.0"
   },
   "license": "MIT",
@@ -52,11 +51,12 @@
         "test-fab/"
       ],
       "Neighborhoods\\ImgProxyClientComponentTest\\Unit\\": [
-        "test/"
+        "test/Unit/"
       ]
     }
   },
   "require-dev": {
+    "neighborhoods/buphalo": "^1.1",
     "phpunit/phpunit": "^9.0"
   }
 }

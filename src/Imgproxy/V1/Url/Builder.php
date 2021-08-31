@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Neighborhoods\ImgProxyClientComponent\Imgproxy\V1\Url;
@@ -33,7 +34,7 @@ class Builder implements BuilderInterface
 
     protected function buildUnsignedPath(): string
     {
-        $enlarge = (string)(int)$this->getEnlarge();
+        $enlarge = $this->getEnlarge() ? '1' : '0';
         $encodedUrl = rtrim(strtr(base64_encode($this->getImageUrl()), '+/', '-_'), '=');
 
         $fit = $this->getFit();
@@ -45,7 +46,7 @@ class Builder implements BuilderInterface
 
         if ($this->hasExtension()) {
             $urlExtension = $this->getExtension();
-            $unsignedPath = $unsignedPath . ".$urlExtension";
+            $unsignedPath .= ".$urlExtension";
         }
 
         return $unsignedPath;
@@ -53,14 +54,14 @@ class Builder implements BuilderInterface
 
     protected function buildSecureSignedPath(string $unsignedPath): string
     {
-        $saltBinary = pack("H*" , $this->getSalt());
+        $saltBinary = pack("H*", $this->getSalt());
         $data = $saltBinary . $unsignedPath;
 
-        $keyBinary = pack("H*" , $this->getKey());
+        $keyBinary = pack("H*", $this->getKey());
         $sha256 = hash_hmac('sha256', $data, $keyBinary, true);
         $sha256Encoded = base64_encode($sha256);
-        $signature = str_replace(["+", "/", "="], ["-", "_", ""], $sha256Encoded);;
-        return "/{$signature}{$unsignedPath}";
+        $signature = str_replace(["+", "/", "="], ["-", "_", ""], $sha256Encoded);
+        return '/' . $signature . $unsignedPath;
     }
 
     public function getWidth(): int
